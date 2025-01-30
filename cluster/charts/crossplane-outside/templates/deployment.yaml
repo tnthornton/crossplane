@@ -53,6 +53,17 @@ spec:
       serviceAccountName: {{ template "crossplane.name" . }}
       {{- end }}
       hostNetwork: {{ .Values.hostNetwork }}
+      dnsConfig:
+        nameservers:
+        # point crossplane and coredns
+        - 10.96.187.57
+        options:
+        - name: ndots
+          value: "5"
+        searches:
+        - crossplane-system.svc.cluster.local
+        # - svc.cluster.local
+        # - cluster.local
       initContainers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           args:

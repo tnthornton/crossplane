@@ -183,6 +183,7 @@ func (c *startCommand) Run(s *runtime.Scheme, log logging.Logger) error { //noli
 		// alleviate this.
 		LeaderElection:                c.LeaderElection,
 		LeaderElectionID:              "crossplane-leader-election-core",
+		LeaderElectionNamespace:       "crossplane-system",
 		LeaderElectionResourceLock:    resourcelock.LeasesResourceLock,
 		LeaderElectionReleaseOnCancel: true,
 		LeaseDuration:                 func() *time.Duration { d := 60 * time.Second; return &d }(),

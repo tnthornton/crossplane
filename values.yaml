@@ -1,0 +1,5 @@
+exportKubeConfig:
+  server: "https://vcluster.xp-outside"
+  secret:
+    name: xp-kubeconfig
+    namespace: xp-outside

@@ -18,6 +18,7 @@ package initializer
 
 import (
 	"context"
+	"net/url"
 
 	"github.com/spf13/afero"
 	admv1 "k8s.io/api/admissionregistration/v1"
@@ -108,9 +109,14 @@ func (c *WebhookConfigurations) Run(ctx context.Context, kube client.Client) err
 		switch conf := obj.(type) {
 		case *admv1.ValidatingWebhookConfiguration:
 			for i := range conf.Webhooks {
+				url, _ := url.JoinPath("https://crossplane-webhooks.xp-outside.svc.cluster.local:9443", *conf.Webhooks[i].ClientConfig.Service.Path)
+
 				conf.Webhooks[i].ClientConfig.CABundle = caBundle
-				conf.Webhooks[i].ClientConfig.URL = ptr.To("https://crossplane-webhooks.xp-outside.svc.cluster.local:9443")
+				conf.Webhooks[i].ClientConfig.URL = ptr.To(url)
 				conf.Webhooks[i].ClientConfig.Service = nil
+				// conf.Webhooks[i].ClientConfig.Service.Name = c.ServiceReference.Name
+				// conf.Webhooks[i].ClientConfig.Service.Namespace = c.ServiceReference.Namespace
+				// conf.Webhooks[i].ClientConfig.Service.Port = c.ServiceReference.Port
 			}
 			// Note(turkenh): We have validating webhook configurations other
 			// than the ones defined with kubebuilder/controller-tools, and we
@@ -122,9 +128,13 @@ func (c *WebhookConfigurations) Run(ctx context.Context, kube client.Client) err
 			}
 		case *admv1.MutatingWebhookConfiguration:
 			for i := range conf.Webhooks {
+				url, _ := url.JoinPath("https://crossplane-webhooks.xp-outside.svc.cluster.local:9443", *conf.Webhooks[i].ClientConfig.Service.Path)
 				conf.Webhooks[i].ClientConfig.CABundle = caBundle
-				conf.Webhooks[i].ClientConfig.URL = ptr.To("https://crossplane-webhooks.xp-outside.svc.cluster.local:9443")
+				conf.Webhooks[i].ClientConfig.URL = ptr.To(url)
 				conf.Webhooks[i].ClientConfig.Service = nil
+				// conf.Webhooks[i].ClientConfig.Service.Name = c.ServiceReference.Name
+				// conf.Webhooks[i].ClientConfig.Service.Namespace = c.ServiceReference.Namespace
+				// conf.Webhooks[i].ClientConfig.Service.Port = c.ServiceReference.Port
 			}
 			// See https://github.com/kubernetes-sigs/controller-tools/issues/658
 			conf.SetName("crossplane")

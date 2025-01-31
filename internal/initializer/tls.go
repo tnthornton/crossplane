@@ -360,5 +360,6 @@ func DNSNamesForService(service, namespace string) []string {
 		service,
 		service + "." + namespace,
 		service + "." + namespace + ".svc",
+		service + "." + namespace + ".svc.cluster.local",
 	}
 }

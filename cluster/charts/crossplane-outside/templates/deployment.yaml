@@ -61,6 +61,8 @@ spec:
         - name: ndots
           value: "5"
         searches:
+        - crossplane-system
+        - crossplane-system.svc
         - crossplane-system.svc.cluster.local
         # - svc.cluster.local
         # - cluster.local

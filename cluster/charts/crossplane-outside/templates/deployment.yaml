@@ -55,8 +55,7 @@ spec:
       hostNetwork: {{ .Values.hostNetwork }}
       dnsConfig:
         nameservers:
-        # point crossplane and coredns
-        - 10.96.187.57
+        - 10.96.132.249
         options:
         - name: ndots
           value: "5"
@@ -64,8 +63,16 @@ spec:
         - crossplane-system
         - crossplane-system.svc
         - crossplane-system.svc.cluster.local
-        # - svc.cluster.local
-        # - cluster.local
+        - svc.cluster.local
+        - cluster.local
+      dnsPolicy: None
+      hostAliases:
+      - hostnames:
+        - kubernetes
+        - kubernetes.default
+        - kubernetes.default.svc
+        - vcluster.xp-outside
+        ip: 10.96.153.10
       initContainers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           args:

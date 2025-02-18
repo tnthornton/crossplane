@@ -132,7 +132,7 @@ spec:
       volumes:
       - name: vcluster-kubeconfig
         secret:
-          secretName: xp-kubeconfig     
+          secretName: mxp-kubeconfig     
       {{- if .Values.rbacManager.nodeSelector }}
       nodeSelector: {{ toYaml .Values.rbacManager.nodeSelector | nindent 8 }}
       {{- end }}

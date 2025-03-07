@@ -3,3 +3,41 @@ exportKubeConfig:
   secret:
     name: xp-kubeconfig
     namespace: xp-outside
+controlPlane:
+  distro:
+    k8s:
+      enabled: true
+  statefulSet:
+    image:
+      repository: "loft-sh/vcluster-oss"
+
+
+# NOTES:
+# need to create crossplane-system for TLS secrets to be mounted by providers and functions
+# init creates secrets in crossplane-system (in vcluster)
+# -----> need to sync secret state from vcluster to hostcluster namespace
+#     -----> is it possible to manage this secret with cert-manager today? (by creating the ca?)
+
+
+# rbac manager won't deploy
+# Warning  FailedCreate  9m7s (x19 over 38m)  replicaset-controller  Error creating: pods "crossplane-rbac-manager-68b6c5898f-" is forbidden: error looking up service account xp-outside/rbac-manager: serviceaccount "rbac-manager" not found
+
+# for comms to functions we'll need:
+# dnsConfig:
+#  nameservers:
+#  - 10.96.132.249
+#  options:
+#  - name: ndots
+#    value: "5"
+#  searches:
+#  - crossplane-system.svc.cluster.local
+#  - svc.cluster.local
+#  - cluster.local
+# dnsPolicy: None
+# hostAliases:
+# - hostnames:
+#   - kubernetes
+#   - kubernetes.default
+#   - kubernetes.default.svc
+#   - vcluster.xp-outside
+#   ip: 10.96.153.10

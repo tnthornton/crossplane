@@ -121,18 +121,31 @@ spec:
           - name: KUBECONFIG
             value: /etc/upbound/kubeconfig
         volumeMounts:
+        ### updated ###
           - mountPath: /etc/upbound/kubeconfig
             name: vcluster-kubeconfig
             readOnly: true
             subPath: config
+          - mountPath: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+            name: crossplane-namespace
+            readOnly: true
+        ### updated ###
         {{- range $key, $value := .Values.extraEnvVarsRBACManager }}
           - name: {{ $key | replace "." "_" }}
             value: {{ $value | quote }}
         {{- end}}
       volumes:
+      ### updated ###
       - name: vcluster-kubeconfig
         secret:
-          secretName: mxp-kubeconfig     
+          secretName: mxp-kubeconfig
+      - name: namespace
+        configMap:
+          name: crossplane-namespace
+          items:
+            - key: namespace
+              path: namespace
+      ### updated ###     
       {{- if .Values.rbacManager.nodeSelector }}
       nodeSelector: {{ toYaml .Values.rbacManager.nodeSelector | nindent 8 }}
       {{- end }}

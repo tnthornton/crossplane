@@ -253,6 +253,9 @@ spec:
             name: vcluster-kubeconfig
             readOnly: true
             subPath: config
+          - mountPath: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+            name: crossplane-namespace
+            readOnly: true
           #### updated #####
       volumes:
       - name: package-cache
@@ -285,6 +288,12 @@ spec:
       - name: vcluster-kubeconfig
         secret:
           secretName: mxp-kubeconfig
+      - name: namespace
+        configMap:
+          name: crossplane-namespace
+          items:
+            - key: namespace
+              path: namespace
       #### updated #####
       {{- if .Values.extraVolumesCrossplane }}
       {{- toYaml .Values.extraVolumesCrossplane | nindent 6 }}

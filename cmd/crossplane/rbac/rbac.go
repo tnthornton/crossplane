@@ -78,7 +78,6 @@ func (c *startCommand) Run(s *runtime.Scheme, log logging.Logger) error {
 		Scheme:                     s,
 		LeaderElection:             c.LeaderElection,
 		LeaderElectionID:           "crossplane-leader-election-rbac",
-		LeaderElectionNamespace:    "crossplane-system",
 		LeaderElectionResourceLock: resourcelock.LeasesResourceLock,
 		Cache: cache.Options{
 			SyncPeriod: &c.SyncInterval,

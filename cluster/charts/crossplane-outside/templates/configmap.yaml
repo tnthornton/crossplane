@@ -2,5 +2,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: crossplane-namespace
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "crossplane.name" . }}
+    release: {{ .Release.Name }}
+    {{- include "crossplane.labels" . | indent 4 }}
+  {{- with .Values.customAnnotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
 data:
   namespace: crossplane-system

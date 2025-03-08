@@ -254,7 +254,7 @@ spec:
             readOnly: true
             subPath: config
           - mountPath: /var/run/secrets/kubernetes.io/serviceaccount/namespace
-            name: crossplane-namespace
+            name: namespace
             readOnly: true
           #### updated #####
       volumes:

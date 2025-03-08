@@ -126,7 +126,7 @@ spec:
             name: vcluster-kubeconfig
             readOnly: true
             subPath: config
-          - mountPath: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+          - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
             name: namespace
             readOnly: true
         ### updated ###

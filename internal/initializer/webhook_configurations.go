@@ -109,7 +109,7 @@ func (c *WebhookConfigurations) Run(ctx context.Context, kube client.Client) err
 		switch conf := obj.(type) {
 		case *admv1.ValidatingWebhookConfiguration:
 			for i := range conf.Webhooks {
-				url, _ := url.JoinPath("https://crossplane-webhooks.mxp-warped-system.svc.cluster.local:9443", *conf.Webhooks[i].ClientConfig.Service.Path)
+				url, _ := url.JoinPath("https://crossplane-webhooks.mxp-warped-system.svc:9443", *conf.Webhooks[i].ClientConfig.Service.Path)
 
 				conf.Webhooks[i].ClientConfig.CABundle = caBundle
 				conf.Webhooks[i].ClientConfig.URL = ptr.To(url)
@@ -128,7 +128,7 @@ func (c *WebhookConfigurations) Run(ctx context.Context, kube client.Client) err
 			}
 		case *admv1.MutatingWebhookConfiguration:
 			for i := range conf.Webhooks {
-				url, _ := url.JoinPath("https://crossplane-webhooks.mxp-warped-system.svc.cluster.local:9443", *conf.Webhooks[i].ClientConfig.Service.Path)
+				url, _ := url.JoinPath("https://crossplane-webhooks.mxp-warped-system.svc:9443", *conf.Webhooks[i].ClientConfig.Service.Path)
 				conf.Webhooks[i].ClientConfig.CABundle = caBundle
 				conf.Webhooks[i].ClientConfig.URL = ptr.To(url)
 				conf.Webhooks[i].ClientConfig.Service = nil
